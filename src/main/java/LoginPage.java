@@ -1,5 +1,6 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class LoginPage {
     private WebDriver driver;
@@ -8,33 +9,38 @@ public class LoginPage {
         this.driver = driver;
     }
 
-    private By userNameField = By.xpath("//input[@formcontrolname='username']");
-    private By passwordField = By.xpath("//input[@formcontrolname='password']");
-    private By signInButton = By.xpath("//span[text()=' SIGN IN ']");
-    private By forgotPasswordLink = By.xpath("//span[text()=' Forgot Password? ']");
-    private By systemStatusLink = By.xpath("//div[@class='auth-content']//a[text()='System Status']");
+    @FindBy(xpath = "//input[@formcontrolname='username']")
+    private WebElement userNameField;
+    @FindBy(xpath = "//input[@formcontrolname='password']")
+    private WebElement passwordField;
+    @FindBy(xpath = "//span[text()=' SIGN IN ']")
+    private WebElement signInButton;
+    @FindBy(xpath = "//span[text()=' Forgot Password? ']")
+    private WebElement forgotPasswordLink;
+    @FindBy(xpath = "//div[@class='auth-content']//a[text()='System Status']")
+    private WebElement systemStatusLink;
 
     public DashboardPage clickSignIn() {
-        driver.findElement(signInButton).click();
+        signInButton.click();
         return new DashboardPage(driver);
     }
 
     public ForgotPasswordPage clickForgotPasswordLink() {
-        driver.findElement(forgotPasswordLink).click();
+        forgotPasswordLink.click();
         return new ForgotPasswordPage(driver);
     }
 
     public void clickSystemStatusLink() {
-        driver.findElement(systemStatusLink).click();
+        systemStatusLink.click();
     }
 
     public LoginPage typeUserName (String userName) {
-        driver.findElement(userNameField).sendKeys(userName);
+        userNameField.sendKeys(userName);
         return this;
     }
 
     public LoginPage typePassword (String password) {
-        driver.findElement(passwordField).sendKeys(password);
+        passwordField.sendKeys(password);
         return this;
     }
 

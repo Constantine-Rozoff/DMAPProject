@@ -1,5 +1,6 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class ForgotPasswordPage {
     private WebDriver driver;
@@ -8,49 +9,58 @@ public class ForgotPasswordPage {
         this.driver = driver;
     }
 
-    private By emailField = By.xpath("//input[@placeholder='Email']");
-    private By submitButton = By.xpath("//span[text()=' SUBMIT ']/..//parent::button");
-    private By cancelButton = By.xpath("//span[text()=' CANCEL ']//parent::button");
-    private By systemStatusLink = By.xpath("//div[@class='auth-content']//a[text()='System Status']");
-    private By resetPasswordTitle = By.xpath("//h2[contains(text(),'Reset Your Password')]");
-    private By successNotification = By.xpath("//div[contains(text(),' Email with link was successfully sent! ')]");
-    private By doneButton = By.xpath("//span[text()=' DONE ']//parent::button");
-    private By notificationForInvalidEmail = By.xpath("//div[contains(text(),'Should be a valid email address.')]");
-    private By notificationForEmptyEmail = By.xpath("//div[contains(text(),'This field is required.')]");
+    @FindBy(xpath = "//input[@placeholder='Email']")
+    private WebElement emailField;
+    @FindBy(xpath = "//span[text()=' SUBMIT ']/..//parent::button")
+    private WebElement submitButton;
+    @FindBy(xpath = "//span[text()=' CANCEL ']//parent::button")
+    private WebElement cancelButton;
+    @FindBy(xpath = "//div[@class='auth-content']//a[text()='System Status']")
+    private WebElement systemStatusLink;
+    @FindBy(xpath = "//h2[contains(text(),'Reset Your Password')]")
+    private WebElement resetPasswordTitle;
+    @FindBy(xpath = "//div[contains(text(),' Email with link was successfully sent! ')]")
+    private WebElement successNotification;
+    @FindBy(xpath = "//span[text()=' DONE ']//parent::button")
+    private WebElement doneButton;
+    @FindBy(xpath = "//div[contains(text(),'Should be a valid email address.')]")
+    private WebElement notificationForInvalidEmail;
+    @FindBy(xpath = "//div[contains(text(),'This field is required.')]")
+    private WebElement notificationForEmptyEmail;
 
 
     public ForgotPasswordPage typeEmail (String email) {
-        driver.findElement(emailField).sendKeys(email);
+        emailField.sendKeys(email);
         return this;
     }
 
     public ForgotPasswordPage clickSubmitButton() {
-        driver.findElement(submitButton).click();
+        submitButton.click();
         return this;
     }
 
     public LoginPage clickCancelButton() {
-        driver.findElement(cancelButton).click();
+        cancelButton.click();
         return new LoginPage(driver);
     }
 
     public LoginPage clickDoneButton() {
-        driver.findElement(doneButton).click();
+        doneButton.click();
         return new LoginPage(driver);
     }
 
     public void clickSystemStatusLink() {
-        driver.findElement(systemStatusLink).click();
+        systemStatusLink.click();
     }
 
     public String getHeading() {
-        return driver.findElement(resetPasswordTitle).getText();
+        return resetPasswordTitle.getText();
     }
 
     public ForgotPasswordPage sendEmailWithRestoreLink (String email) {
         this.typeEmail(email);
         this.clickSubmitButton();
-        driver.findElement(successNotification);
+        successNotification.isDisplayed();
         //click on Done button can be added if needed
         return this;
     }
@@ -58,14 +68,14 @@ public class ForgotPasswordPage {
     public ForgotPasswordPage sendInvalidEmail (String invalidEmail) {
         this.typeEmail(invalidEmail);
         this.clickSubmitButton();
-        driver.findElement(notificationForInvalidEmail);
+        notificationForInvalidEmail.isDisplayed();
         //click on Done button can be added if needed
         return this;
     }
 
     public ForgotPasswordPage sendEmptyEmail () {
         this.clickSubmitButton();
-        driver.findElement(notificationForEmptyEmail);
+        notificationForEmptyEmail.isDisplayed();
         //click on Done button can be added if needed
         return this;
     }
