@@ -13,4 +13,9 @@ public class DashboardPage {
     private By subMenuCampaigns = By.xpath("//div[@class='sidebar-item']//a[@href='/campaigns']");
     private By sideBarData = By.xpath("//div[@class='sidebar-item']/label[(text()='Data')]");
     private By subMenuAudiences = By.xpath("//div[@class='sidebar-item']//a[@href='/data/audiences']");
+    private By notifications = By.xpath("//div[@class='dashboard-notifications-container']/h2");
+
+    public String getHeading() {
+        return driver.findElement(notifications).getText();
+    }
 }
