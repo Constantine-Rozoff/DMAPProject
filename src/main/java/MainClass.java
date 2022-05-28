@@ -16,6 +16,6 @@ public class MainClass {
       //  LoginPage loginPage = new LoginPage(driver);
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
 
-        loginPage.signInToTheSystem("danielle", "monsterPass123!");
+        loginPage.signIntoTheSystem("danielle", "monsterPass123!");
     }
 }

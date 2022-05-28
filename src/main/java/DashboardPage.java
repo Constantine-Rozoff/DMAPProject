@@ -1,3 +1,4 @@
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,14 +10,14 @@ public class DashboardPage {
         this.driver = driver;
     }
 
-    @FindBy(xpath = "//div[@class='sidebar-logo-item']")
-    private WebElement dmapLogo;
-    @FindBy(xpath = "//div[@class='sidebar-item']/label[(text()='Campaigns')]")
-    private WebElement sideBarCampaigns;
-    @FindBy(xpath = "//div[@class='sidebar-item']//a[@href='/campaigns']")
-    private WebElement subMenuCampaigns;
-    @FindBy(xpath = "//div[@class='sidebar-item']/label[(text()='Data')]")
-    private WebElement sideBarData;
-    @FindBy(xpath = "//div[@class='sidebar-item']//a[@href='/data/audiences']")
-    private WebElement subMenuAudiences;
+    private By dmapLogo = By.xpath("//div[@class='sidebar-logo-item']");
+    private By sideBarCampaigns = By.xpath("//div[@class='sidebar-item']/label[(text()='Campaigns')]");
+    private By subMenuCampaigns = By.xpath("//div[@class='sidebar-item']//a[@href='/campaigns']");
+    private By sideBarData = By.xpath("//div[@class='sidebar-item']/label[(text()='Data')]");
+    private By subMenuAudiences = By.xpath("//div[@class='sidebar-item']//a[@href='/data/audiences']");
+    private By notifications = By.xpath("//div[@class='dashboard-notifications-container']/h2");
+
+    public String getHeading() {
+        return driver.findElement(notifications).getText();
+    }
 }
