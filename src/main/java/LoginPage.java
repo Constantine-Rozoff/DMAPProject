@@ -13,8 +13,10 @@ public class LoginPage {
     private By signInButton = By.xpath("//span[text()=' SIGN IN ']");
     private By forgotPasswordLink = By.xpath("//span[text()=' Forgot Password? ']");
     private By systemStatusLink = By.xpath("//div[@class='auth-content']//a[text()='System Status']");
-    private By theFieldIsRequireError = By.xpath("//*[text()[contains(., 'This field is required.')]]");
+    private By theUsernameFieldIsRequireError = By.xpath("//input[@placeholder='Username']/../../..//*[text()[contains(., 'This field is required.')]]");
+    private By thePasswordFieldIsRequireError = By.xpath("//input[@placeholder='Password']/../../..//*[text()[contains(., 'This field is required.')]]");
     private By theWrongPasswordError = By.xpath("//div[text()[contains(., '  The login information provided is invalid. Please check your submission and try again. ')]]");
+    private By tooLongInputError = By.xpath("//div[text()[contains(., 'Maximum length for the field is 50 characters.')]]");
 
     public DashboardPage clickSignIn() {
         driver.findElement(signInButton).click();
@@ -47,11 +49,19 @@ public class LoginPage {
         return new DashboardPage(driver);
     }
 
-    public String getFieldIsRequireErrorText() {
-        return driver.findElement(theFieldIsRequireError).getText();
+    public String getUsernameFieldIsRequireErrorText() {
+        return driver.findElement(theUsernameFieldIsRequireError).getText();
+    }
+
+    public String getPasswordFieldIsRequireErrorText() {
+        return driver.findElement(thePasswordFieldIsRequireError).getText();
     }
 
     public String getWrongPasswordErrorText() {
         return driver.findElement(theWrongPasswordError).getText();
+    }
+
+    public String getTooLongInputErrorText() {
+        return driver.findElement(tooLongInputError).getText();
     }
 }
