@@ -1,7 +1,6 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -31,15 +30,15 @@ public class LoginPageTest {
         DashboardPage dashboardPage = new DashboardPage(driver);
         loginPage.signIntoTheSystem("danielle", "monsterPass123!");
         String heading = dashboardPage.getHeading();
-        assertTrue(driver.findElement(By.xpath("//div[@class='dashboard-notifications-container']/h2")).isDisplayed());
-        //assertEquals("Notifications", heading);
+        assertTrue(driver.findElement(dashboardPage.getNotifications()).isDisplayed());
+        assertEquals("Notifications", heading);
     }
 
     @Test
     public void loginWithCamelcaseUsernameTest () {
         loginPage.signIntoTheSystem("Danielle", "monsterPass123!");
         String error = loginPage.getWrongPasswordErrorText();
-        assertTrue(driver.findElement(By.xpath("//div[text()[contains(., '  The login information provided is invalid. Please check your submission and try again. ')]]")).isDisplayed());
+        assertTrue(driver.findElement(loginPage.getTheInvalidDataError()).isDisplayed());
         assertEquals("The login information provided is invalid. Please check your submission and try again.", error);
     }
 
@@ -47,7 +46,7 @@ public class LoginPageTest {
     public void loginWithEmptyPasswordTest () {
         loginPage.signIntoTheSystem("danielle", "");
         String error = loginPage.getPasswordFieldIsRequireErrorText();
-        assertTrue(driver.findElement(By.xpath("//input[@placeholder='Password']/../../..//*[text()[contains(., 'This field is required.')]]")).isDisplayed());
+        assertTrue(driver.findElement(loginPage.getThePasswordFieldIsRequireError()).isDisplayed());
         assertEquals("This field is required.", error);
     }
 
@@ -55,7 +54,7 @@ public class LoginPageTest {
     public void loginWithEmptyUsernameTest () {
         loginPage.signIntoTheSystem("", "monsterPass123!");
         String error = loginPage.getUsernameFieldIsRequireErrorText();
-        assertTrue(driver.findElement(By.xpath("//*[text()[contains(., 'This field is required.')]]")).isDisplayed());
+        assertTrue(driver.findElement(loginPage.getTheUsernameFieldIsRequireError()).isDisplayed());
         assertEquals("This field is required.", error);
     }
 
@@ -63,10 +62,10 @@ public class LoginPageTest {
     public void loginWithEmptyFieldsTest () {
         loginPage.signIntoTheSystem("", "");
         String usernameError = loginPage.getUsernameFieldIsRequireErrorText();
-        assertTrue(driver.findElement(By.xpath("//input[@placeholder='Username']/../../..//*[text()[contains(., 'This field is required.')]]")).isDisplayed());
+        assertTrue(driver.findElement(loginPage.getTheUsernameFieldIsRequireError()).isDisplayed());
         assertEquals("This field is required.", usernameError);
         String passwordError = loginPage.getPasswordFieldIsRequireErrorText();
-        assertTrue(driver.findElement(By.xpath("//input[@placeholder='Password']/../../..//*[text()[contains(., 'This field is required.')]]")).isDisplayed());
+        assertTrue(driver.findElement(loginPage.getThePasswordFieldIsRequireError()).isDisplayed());
         assertEquals("This field is required.", passwordError);
     }
 
@@ -74,7 +73,7 @@ public class LoginPageTest {
     public void loginWithUsernameFilledWithSpacesTest () {
         loginPage.signIntoTheSystem("          ", "monsterPass123!");
         String error = loginPage.getUsernameFieldIsRequireErrorText();
-        assertTrue(driver.findElement(By.xpath("//input[@placeholder='Username']/../../..//*[text()[contains(., 'This field is required.')]]")).isDisplayed());
+        assertTrue(driver.findElement(loginPage.getTheUsernameFieldIsRequireError()).isDisplayed());
         assertEquals("This field is required.", error);
     }
 
@@ -82,7 +81,7 @@ public class LoginPageTest {
     public void loginWithPasswordFilledWithSpacesTest () {
         loginPage.signIntoTheSystem("danielle", "          ");
         String error = loginPage.getWrongPasswordErrorText();
-        assertTrue(driver.findElement(By.xpath("//div[text()[contains(., '  The login information provided is invalid. Please check your submission and try again. ')]]")).isDisplayed());
+        assertTrue(driver.findElement(loginPage.getTheInvalidDataError()).isDisplayed());
         assertEquals("The login information provided is invalid. Please check your submission and try again.", error);
     }
 
@@ -90,7 +89,7 @@ public class LoginPageTest {
     public void loginWithInvalidUsernameTest () {
         loginPage.signIntoTheSystem("danielleggg", "monsterPass123!");
         String error = loginPage.getWrongPasswordErrorText();
-        assertTrue(driver.findElement(By.xpath("//div[text()[contains(., '  The login information provided is invalid. Please check your submission and try again. ')]]")).isDisplayed());
+        assertTrue(driver.findElement(loginPage.getTheInvalidDataError()).isDisplayed());
         assertEquals("The login information provided is invalid. Please check your submission and try again.", error);
     }
 
@@ -98,7 +97,7 @@ public class LoginPageTest {
     public void loginWithInvalidPasswordTest () {
         loginPage.signIntoTheSystem("danielle", "monsterPass123!!!");
         String error = loginPage.getWrongPasswordErrorText();
-        assertTrue(driver.findElement(By.xpath("//div[text()[contains(., '  The login information provided is invalid. Please check your submission and try again. ')]]")).isDisplayed());
+        assertTrue(driver.findElement(loginPage.getTheInvalidDataError()).isDisplayed());
         assertEquals("The login information provided is invalid. Please check your submission and try again.", error);
     }
 
@@ -106,23 +105,23 @@ public class LoginPageTest {
     public void clickOnForgotPasswordLinkTest () {
         ForgotPasswordPage fpp = loginPage.clickForgotPasswordLink();
         String heading = fpp.getHeading();
-        assertTrue(driver.findElement(By.xpath("//h2[contains(text(),'Reset Your Password')]")).isDisplayed());
+        assertTrue(driver.findElement(fpp.getResetPasswordTitle()).isDisplayed());
         assertEquals("Reset Your Password", heading);
     }
 
     @Test
     public void checkMaxLengthUsernameTest () {
         loginPage.signIntoTheSystem("tahnert tahnert tahnert tahnert tahnert tahnert taf", "monsterPass123!!!");
-        String error = loginPage.getTooLongInputErrorText();
-        assertTrue(driver.findElement(By.xpath("//input[@placeholder='Username']/../../..//*[text()[contains(., 'Maximum length for the field is 50 characters.')]]")).isDisplayed());
+        String error = loginPage.getTooLongUsernameErrorText();
+        assertTrue(driver.findElement(loginPage.getTooLongUsernameError()).isDisplayed());
         assertEquals("Maximum length for the field is 50 characters.", error);
     }
 
     @Test
     public void checkMaxLengthPasswordTest () {
         loginPage.signIntoTheSystem("danielle", "tahnert tahnert tahnert tahnert tahnert tahnert taf");
-        String error = loginPage.getTooLongInputErrorText();
-        assertTrue(driver.findElement(By.xpath("//input[@placeholder='Password']/../../..//*[text()[contains(., 'Maximum length for the field is 50 characters.')]]")).isDisplayed());
+        String error = loginPage.getTooLongPasswordErrorText();
+        assertTrue(driver.findElement(loginPage.getTooLongPasswordError()).isDisplayed());
         assertEquals("Maximum length for the field is 50 characters.", error);
     }
 

@@ -4,6 +4,10 @@ import org.openqa.selenium.WebDriver;
 public class ForgotPasswordPage {
     private WebDriver driver;
 
+    public By getResetPasswordTitle() {
+        return resetPasswordTitle;
+    }
+
     public ForgotPasswordPage(WebDriver driver) {
         this.driver = driver;
     }

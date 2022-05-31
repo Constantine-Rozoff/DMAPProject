@@ -15,8 +15,49 @@ public class LoginPage {
     private By systemStatusLink = By.xpath("//div[@class='auth-content']//a[text()='System Status']");
     private By theUsernameFieldIsRequireError = By.xpath("//input[@placeholder='Username']/../../..//*[text()[contains(., 'This field is required.')]]");
     private By thePasswordFieldIsRequireError = By.xpath("//input[@placeholder='Password']/../../..//*[text()[contains(., 'This field is required.')]]");
-    private By theWrongPasswordError = By.xpath("//div[text()[contains(., '  The login information provided is invalid. Please check your submission and try again. ')]]");
-    private By tooLongInputError = By.xpath("//div[text()[contains(., 'Maximum length for the field is 50 characters.')]]");
+    private By theInvalidDataError = By.xpath("//div[text()[contains(., '  The login information provided is invalid. Please check your submission and try again. ')]]");
+    private By tooLongUsernameError = By.xpath("//input[@placeholder='Username']/../../..//*[text()[contains(., 'Maximum length for the field is 50 characters.')]]");
+    private By tooLongPasswordError = By.xpath("//input[@placeholder='Password']/../../..//*[text()[contains(., 'Maximum length for the field is 50 characters.')]]");
+
+    public By getUserNameField() {
+        return userNameField;
+    }
+
+    public By getPasswordField() {
+        return passwordField;
+    }
+
+    public By getSignInButton() {
+        return signInButton;
+    }
+
+    public By getForgotPasswordLink() {
+        return forgotPasswordLink;
+    }
+
+    public By getSystemStatusLink() {
+        return systemStatusLink;
+    }
+
+    public By getTheUsernameFieldIsRequireError() {
+        return theUsernameFieldIsRequireError;
+    }
+
+    public By getThePasswordFieldIsRequireError() {
+        return thePasswordFieldIsRequireError;
+    }
+
+    public By getTheInvalidDataError() {
+        return theInvalidDataError;
+    }
+
+    public By getTooLongUsernameError() {
+        return tooLongUsernameError;
+    }
+
+    public By getTooLongPasswordError() {
+        return tooLongPasswordError;
+    }
 
     public DashboardPage clickSignIn() {
         driver.findElement(signInButton).click();
@@ -58,10 +99,12 @@ public class LoginPage {
     }
 
     public String getWrongPasswordErrorText() {
-        return driver.findElement(theWrongPasswordError).getText();
+        return driver.findElement(theInvalidDataError).getText();
     }
 
-    public String getTooLongInputErrorText() {
-        return driver.findElement(tooLongInputError).getText();
+    public String getTooLongUsernameErrorText() {
+        return driver.findElement(tooLongUsernameError).getText();
     }
+
+    public String getTooLongPasswordErrorText() { return driver.findElement(tooLongPasswordError).getText(); }
 }
